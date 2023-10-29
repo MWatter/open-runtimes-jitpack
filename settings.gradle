@@ -1,0 +1,8 @@
+/*
+ This file is used as part of the process of uploading
+ the Kotlin modules to jitpack.io. It is part of the general
+ CI process for the runtimes.
+*/
+
+include 'runtimes:kotlin-1.6'
+include 'runtimes:kotlin-1.8'
