@@ -15,12 +15,9 @@ import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.memberFunctions
 import kotlin.time.Duration.Companion.seconds
 
-val gson: Gson = GsonBuilder().serializeNulls().create()
-
-suspend fun main() {
-    Javalin
+class Server (dependency: String) {
+    val app: Javalin = Javalin
         .create()
-        .start(3000)
         .get("/*") { runBlocking { execute(it) } }
         .post("/*") { runBlocking { execute(it) } }
         .put("/*") { runBlocking { execute(it) } }
@@ -28,7 +25,28 @@ suspend fun main() {
         .patch("/*") { runBlocking { execute(it) } }
         .options("/*") { runBlocking { execute(it) } }
         .head("/*") { runBlocking { execute(it) } }
+
+    companion object {
+        @JvmStatic fun main(args: Array<String>) {
+            Server("").app.start(3000)
+        }
+    }
 }
+
+val gson: Gson = GsonBuilder().serializeNulls().create()
+
+//suspend fun main() {
+//    Javalin
+//        .create()
+//        .start(3000)
+//        .get("/*") { runBlocking { execute(it) } }
+//        .post("/*") { runBlocking { execute(it) } }
+//        .put("/*") { runBlocking { execute(it) } }
+//        .delete("/*") { runBlocking { execute(it) } }
+//        .patch("/*") { runBlocking { execute(it) } }
+//        .options("/*") { runBlocking { execute(it) } }
+//        .head("/*") { runBlocking { execute(it) } }
+//}
 
 suspend fun execute(ctx: Context) {
     var safeTimeout = -1;

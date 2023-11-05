@@ -23,7 +23,7 @@ dependencies {
 task buildJar(type: Jar) {
 	manifest {
 		attributes(
-				'Main-Class': 'io.openruntimes.kotlin.ServerKt'
+				'Main-Class': 'io.openruntimes.kotlin.Server'
 		)
 	}
 	from {
