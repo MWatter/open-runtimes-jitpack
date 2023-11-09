@@ -18,13 +18,13 @@ import kotlin.time.Duration.Companion.seconds
 class Server (dependency: String) {
     val app: Javalin = Javalin
         .create()
-        .get("/*") { execute(it) }
-        .post("/*") { execute(it) }
-        .put("/*") { execute(it) }
-        .delete("/*") { execute(it) }
-        .patch("/*") { execute(it) }
-        .options("/*") { execute(it) }
-        .head("/*") { execute(it) }
+        .get("/*") { runBlocking { execute(it) }  }
+        .post("/*") { runBlocking { execute(it) } }
+        .put("/*") { runBlocking { execute(it) } }
+        .delete("/*") { runBlocking { execute(it) } }
+        .patch("/*") { runBlocking { execute(it) } }
+        .options("/*") { runBlocking { execute(it) } }
+        .head("/*") { runBlocking { execute(it) } }
 
     companion object {
         @JvmStatic fun main(args: Array<String>) {
@@ -48,7 +48,7 @@ val gson: Gson = GsonBuilder().serializeNulls().create()
 //        .head("/*") { runBlocking { execute(it) } }
 //}
 
-fun execute(ctx: Context) {
+suspend fun execute(ctx: Context) {
     var safeTimeout = -1;
     val timeout = ctx.header("x-open-runtimes-timeout") ?: ""
     if (timeout.isNotEmpty()) {
